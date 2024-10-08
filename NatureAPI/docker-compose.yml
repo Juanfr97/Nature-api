@@ -1,0 +1,21 @@
+services:
+  
+  nature-api:
+    build:
+      context: .
+    container_name: nature-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "3000:8080"
+  
+  azure-db:
+    image: mcr.microsoft.com/azure-sql-edge:latest 
+    container_name: azure-db
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password123
+      - MSSQL_PID=Developer
+      - MSSQL_USER=sa

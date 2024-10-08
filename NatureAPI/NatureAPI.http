@@ -1,0 +1,6 @@
+@NatureAPI_HostAddress = http://localhost:5111
+
+GET {{NatureAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

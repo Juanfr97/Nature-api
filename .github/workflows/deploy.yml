@@ -1,0 +1,41 @@
+name: Deploy to Azure
+
+on:
+    push:
+        branches:
+        - main
+          
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Login to Docker hub
+        run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+        
+      - name: Build Docker image
+        run: docker build -t juanfr97/nature-api:${{ github.sha }} ./NatureAPI/
+        
+      - name: Tag Docker image
+        run: docker tag juanfr97/nature-api:${{ github.sha }} juanfr97/nature-api:latest
+        
+      - name: Push Docker image
+        run: |
+          docker push juanfr97/nature-api:${{ github.sha }}
+          docker push juanfr97/nature-api:latest
+          
+#  deploy:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Deploy to DigitalOcean
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.AZURE_IP }}
+#          username: ${{ secrets.AZURE_USER }}
+#          key: ${{ secrets.AZURE_SSH_KEY }}
+#          script: |
+#            docker pull juanfr97/nature-api:latest
+#            cd /repos
+#            sudo docker-compose up -d
