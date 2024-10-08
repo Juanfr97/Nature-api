@@ -1,8 +1,7 @@
 services:
   
   nature-api:
-    build:
-      context: .
+    image: juanfr97/nature-api:latest
     container_name: nature-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
